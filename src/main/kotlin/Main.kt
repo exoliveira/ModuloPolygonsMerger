@@ -1,14 +1,17 @@
 fun main(args: Array<String>) {
-    println("Hello World!")
-
     var c = CurveSmoother()
 
-    var result = c.clusterNumbers( listOf(1.1, 2.2, 3.3), 2.1)
+    var p1 = Point(1, 1, 1.1, 1.1)
+    var p2 = Point(1, 1, 2.2, 1.1)
+    var p3 = Point(1, 1, 23.3, 1.1)
+    var p4 = Point(1, 1, 23.4, 1.1)
+
+    var result = c.clusterNumbers( listOf(p1, p2, p3, p4), 0.1)
 
     for (sublist in result) {
         // You can perform actions per sublist here (e.g., initialize a row sum)
         for (value in sublist) {
-            print(value)
+            print(value.x)
         }
         println("Ended this cluster")
     }
