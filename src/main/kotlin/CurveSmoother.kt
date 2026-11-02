@@ -1,16 +1,24 @@
 class CurveSmoother {
 
-    fun clusterNumbers(numbers: List<Point>, delta: Double): List<List<Point>> {
+    fun clusterPoints(
+        points: List<Point>,
+        delta: Double,
+        coordinate: (Point) -> Double
+    ): List<List<Point>> {
+
         val clusters = mutableListOf<List<Point>>()
         var start = 0
         var end = 0
 
-        while (start < numbers.size) {
-            val endRange = numbers[start].x + delta
-            while (end < numbers.size && numbers[end].x <= endRange) {
+        while (start < points.size) {
+            val endRange = coordinate(points[start]) + delta
+
+            while (end < points.size &&
+                coordinate(points[end]) <= endRange) {
                 end++
             }
-            clusters.add(numbers.subList(start, end).toList())
+
+            clusters.add(points.subList(start, end).toList())
             start = end
         }
 

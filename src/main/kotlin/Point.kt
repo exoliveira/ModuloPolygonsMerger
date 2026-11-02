@@ -1,6 +1,6 @@
-class Point (val position: Int, val polygonId: Int, val x: Double, val y: Double): IValueGetter {
+class Point (val position: Int, val polygonId: Int, val coordinate: Coordinate): IValueGetter {
     override fun getXValue(): Double {
-        return x
+        return coordinate.x
     }
 
 }
