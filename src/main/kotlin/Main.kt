@@ -1,27 +1,41 @@
+typealias PolygonId = Int
+typealias SequentialPosition = Int
 fun main(args: Array<String>) {
+
     var c = CurveSmoother()
 
-    var p1 = Point(1, 1, Coordinate(1.1, 1.1))
-    var p2 = Point(2, 1, Coordinate( 2.2, 1.1))
-    var p3 = Point(3, 1, Coordinate( 23.3, 1.1))
-    var p4 = Point(4, 1, Coordinate( 23.4, 2.1))
+    val mapPolysPerCoordinate = HashMap<String, MutableSet<Point>>()
 
-    var resultX = c.clusterPoints( listOf(p1, p2, p3, p4), 0.1) { it.coordinate.x}
+    var p1_0 = Point(0, 1, Coordinate(0.0, 0.0))
+    var p1_1 = Point(1, 1, Coordinate(1.1, 1.1))
+    var p1_2 = Point(2, 1, Coordinate( 2.2, 2.2))
+    var p1_3 = Point(3, 1, Coordinate( 3.3, 3.3))
+    var p1_4 = Point(4, 1, Coordinate(5.5, 5.5))
 
-    for (sublist in resultX) {
-        for (value in sublist) {
-            print(value.coordinate.x)
+    var p2_0 = Point(0, 2, Coordinate(10.0, 1.0))
+    var p2_1 = Point(1, 2, Coordinate(1.1, 1.1))
+    var p2_2 = Point(2, 2, Coordinate( 2.2, 2.2))
+    var p2_3 = Point(3, 2, Coordinate( 3.3, 3.3))
+    var p2_4 = Point(4, 2, Coordinate(15.5, 15.5))
+
+    var listAll = listOf(p1_0, p1_1, p1_2, p1_3, p1_4, p2_4, p2_3, p2_2, p2_1, p2_0)
+
+    for (point in listAll) {
+        if (mapPolysPerCoordinate[point.coordinate.coordinateAsString()] == null) {
+            mapPolysPerCoordinate[point.coordinate.coordinateAsString()] = mutableSetOf(point)
         }
-        println("Ended this cluster in x")
-        var resultY = c.clusterPoints(sublist, 1.0) { it.coordinate.y}
-        for (value in resultY) {
-            println(" Y = ${value.get(0).coordinate.y}")
+        else {
+            mapPolysPerCoordinate[point.coordinate.coordinateAsString()]!!.add(point)
         }
-
     }
 
+    val mapaInvertido = mapPolysPerCoordinate.entries.associate { (k, v) -> v to k }
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-//    println("Program arguments: ${args.joinToString()}")
+    mapaInvertido.keys.forEach {
+        println("Points shared by theses polygons: ")
+        it.stream().forEach{ println(it.polygonId )}
+        println(" ... are ...")
+        println(mapaInvertido[it])
+    }
+
 }
